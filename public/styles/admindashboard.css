@@ -1,0 +1,33 @@
+body {
+  background-color: #f7f7f7;
+}
+
+.navbar {
+  background-color: #444;
+}
+
+.navbar-brand {
+  font-size: 22px;
+  font-weight: bold;
+  color: white !important;
+}
+
+.logout-btn {
+  background-color: #ff6a00;
+  border: none;
+  color: white;
+}
+
+.table-header {
+  background-color: #ff6a00;
+  color: white;
+}
+
+.add-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.search-box {
+  width: 250px;
+}
