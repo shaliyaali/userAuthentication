@@ -10,6 +10,14 @@ const nocache=require('nocache')
 
 
 app.use(nocache())
+
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private')
+  res.setHeader('Pragma', 'no-cache')
+  res.setHeader('Expires', '0')
+  next()
+})
+
 app.use(session({
   secret:'mysecretkey',
   resave:false,
@@ -35,6 +43,7 @@ app.use(express.json())
 
 app.use('/user',userRoutes)
 app.use('/admin',adminRoutes)
+
 
 
 

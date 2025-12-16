@@ -9,10 +9,10 @@ const checkSession=(req,res,next)=>{
 }
 const isLogin=(req,res,next)=>{
   if(req.session.user){
-    res.redirect('/user/home')
-  }else{
-    next()
+    return res.redirect('/user/home')
   }
+    next()
+  
 }
 
 module.exports={checkSession,isLogin}
