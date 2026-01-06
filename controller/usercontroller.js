@@ -57,6 +57,11 @@ const login = async (req, res) => {
     }
 
     req.session.user = user._id
+    req.session.email=user.email
+
+
+
+
     res.redirect('/user/home')
 
   }
@@ -101,7 +106,8 @@ const loadRegister = (req, res) => {
 const loadHome = (req, res) => {
 
   delete req.session.message
-  res.render('user/home')
+  const message=req.session.email
+  res.render('user/home',{message})
 }
 module.exports = {
   registerUser,

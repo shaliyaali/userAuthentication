@@ -2,8 +2,8 @@ const userSchema = require('../model/usermodel')
 const bcrypt = require('bcrypt')
 
 const loadLogin = async (req, res) => {
-   const message = req.session.message
-    delete req.session.message 
+  const message = req.session.message
+  delete req.session.message
   res.render('admin/login', { message })
 }
 
@@ -18,8 +18,8 @@ const loadDashboard = async (req, res) => {
     const users = await userSchema.find({ role: 'user' })
 
     const message = req.session.message
-    delete req.session.message 
-    res.render('admin/dashboard', { users,message })
+    delete req.session.message
+    res.render('admin/dashboard', { users, message })
 
   } catch (error) {
     res.send(error)
@@ -50,7 +50,7 @@ const login = async (req, res) => {
       return res.redirect('/admin/login')
     }
 
-    
+
     req.session.admin = admin._id
 
     req.session.message = 'Login successful'
@@ -75,60 +75,60 @@ const logout = async (req, res) => {
 }
 
 
-const editUser=async(req,res)=>{
-  try{
-    const {email,password,_id}=req.body
+const editUser = async (req, res) => {
+  try {
+    const { email, password, _id } = req.body
 
-    const hashedPassword= await bcrypt.hash(password,10)
-    const user=await userSchema.findOneAndUpdate({_id:_id},{$set:{email,password:hashedPassword}})
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const user = await userSchema.findOneAndUpdate({ _id: _id }, { $set: { email, password: hashedPassword } })
 
-    req.session.message='Edited sucessfully'
+    req.session.message = 'Edited sucessfully'
     res.redirect('/admin/dashboard')
-    
-  }catch(error){
+
+  } catch (error) {
     console.log(error)
   }
-  
+
 }
 
-const deleteUser=async(req,res)=>{
-  const {_id}=req.body
-  const user=await userSchema.findOneAndDelete({_id:_id})
-  req.session.message='Deleted'
+const deleteUser = async (req, res) => {
+  const { _id } = req.body
+  const user = await userSchema.findOneAndDelete({ _id: _id })
+  req.session.message = 'Deleted'
   res.redirect('/admin/dashboard')
 }
 
-const addUser=async (req,res)=>{
-  try{
-    const {email,password}=req.body
-    const hashedPassword=await bcrypt.hash(password,10)
-    const users=await userSchema.find({role:'user'})
+const addUser = async (req, res) => {
+  try {
+    const { email, password } = req.body
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const users = await userSchema.find({ role: 'user' })
 
-    const sameEmail=await userSchema.findOne({email})
-    if(sameEmail){
-      req.session.message='User already exist'
+    const sameEmail = await userSchema.findOne({ email })
+    if (sameEmail) {
+      req.session.message = 'User already exist'
       return res.redirect('/admin/dashboard')
-    } 
-    
-    
-    const newUser= new userSchema({
+    }
+
+
+    const newUser = new userSchema({
       email,
-      password:hashedPassword,
-      role:'user'
+      password: hashedPassword,
+      role: 'user'
     })
     await newUser.save()
-     req.session.message='User added'
+    req.session.message = 'User added'
     res.redirect('/admin/dashboard')
 
-  }catch(error){
+  } catch (error) {
     console.log(error)
   }
- 
+
 
 }
-const getLogout=(req,res)=>{
-  
+const getLogout = (req, res) => {
+
   res.redirect('/admin/dashboard')
 }
 
-module.exports = { loadLogin, login, loadDashboard,logout ,editUser,deleteUser,addUser,getLogout}
+module.exports = { loadLogin, login, loadDashboard, logout, editUser, deleteUser, addUser, getLogout }
